@@ -21,8 +21,8 @@ This project is a simple web page that displays how many times the page has been
 ## How to Use
 
 1. Clone this repository:
-```
-git clone [https://github.com/emrepbu/RefreshCounter.git](https://github.com/emrepbu/RefreshCounter.git)
+```bash
+git clone https://github.com/emrepbu/RefreshCounter.git
 ```
 
 2. Navigate into the project folder and open `index.html` in a browser.
