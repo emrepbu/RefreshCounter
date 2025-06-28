@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Refresh Counter</title>
+  <title>Yenileme Sayacı</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
@@ -35,7 +35,7 @@
       font-size: 1rem;
       border-radius: 8px;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: background-color 0.2s ease;
     }
 
     .reset-btn:hover {
@@ -45,19 +45,23 @@
 </head>
 <body>
   <div class="counter" id="counter">0</div>
-  <button class="reset-btn" id="resetBtn">Reset Counter</button>
+  <button class="reset-btn" id="resetBtn">Sayaçı Sıfırla</button>
 
   <script>
     const counterEl = document.getElementById("counter");
     const resetBtn = document.getElementById("resetBtn");
 
     function animateCount(from, to) {
-      gsap.fromTo(
-        { val: from },
-        { val: to, duration: 1.5, ease: "power2.out", onUpdate() {
-          counterEl.textContent = Math.floor(this.targets()[0].val);
-        }}
-      );
+      const obj = { val: from };
+
+      gsap.to(obj, {
+        val: to,
+        duration: 1.5,
+        ease: "power2.out",
+        onUpdate: () => {
+          counterEl.textContent = Math.floor(obj.val);
+        }
+      });
     }
 
     function updateCount() {
@@ -72,17 +76,16 @@
       const prevCount = count - 1;
 
       localStorage.setItem("refreshCount", count);
-
       animateCount(prevCount, count);
     }
 
     function resetCount() {
+      const current = parseInt(counterEl.textContent);
       localStorage.setItem("refreshCount", 0);
-      animateCount(parseInt(counterEl.textContent), 0);
+      animateCount(current, 0);
     }
 
     updateCount();
-
     resetBtn.addEventListener("click", resetCount);
   </script>
 </body>
