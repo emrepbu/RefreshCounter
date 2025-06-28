@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refresh Counter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+
+    .counter {
+      font-size: 5rem;
+      margin-bottom: 30px;
+    }
+
+    .reset-btn {
+      background-color: #fff;
+      color: #000;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="counter" id="counter">0</div>
+  <button class="reset-btn" id="resetBtn">Reset Counter</button>
+
+  <script>
+    const counterEl = document.getElementById("counter");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function animateCount(from, to) {
+      gsap.fromTo(
+        { val: from },
+        { val: to, duration: 1.5, ease: "power2.out", onUpdate() {
+          counterEl.textContent = Math.floor(this.targets()[0].val);
+        }}
+      );
+    }
+
+    function updateCount() {
+      let count = localStorage.getItem("refreshCount");
+
+      if (!count) {
+        count = 1;
+      } else {
+        count = parseInt(count) + 1;
+      }
+
+      const prevCount = count - 1;
+
+      localStorage.setItem("refreshCount", count);
+
+      animateCount(prevCount, count);
+    }
+
+    function resetCount() {
+      localStorage.setItem("refreshCount", 0);
+      animateCount(parseInt(counterEl.textContent), 0);
+    }
+
+    updateCount();
+
+    resetBtn.addEventListener("click", resetCount);
+  </script>
+</body>
+</html>
